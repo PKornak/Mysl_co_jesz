@@ -13,12 +13,12 @@ public class Player extends GameObject {
 
     public void moveLeft() {
         //setVelocity(new Point2D.Double(0,0));
-        setVelocity(new Point2D.Double(-1, velocity.getY()));
+        setVelocity(new Point2D.Double(-3, velocity.getY()));
 
     }
 
     public void moveRight() {
-        setVelocity(new Point2D.Double(1, velocity.getY()));
+        setVelocity(new Point2D.Double(3, velocity.getY()));
 
     }
 
