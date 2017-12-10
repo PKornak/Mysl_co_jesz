@@ -66,7 +66,7 @@ public class MCJApp extends Application{
             addFood(new Food(), Math.random() * root.getPrefWidth(), 10);
         //    foodList.stream
         //            .filter(GameObject::isFlying)
-            //           .foreach(x -> x.moveDown(10));
+        //            .foreach(x -> x.moveDown(10));
         }
 
     }
