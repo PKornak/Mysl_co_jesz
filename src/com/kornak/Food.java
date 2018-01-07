@@ -15,26 +15,72 @@ public class Food extends GameObject{
         super(new Circle(15,15,15, Color.rgb(255,0,0)));
     }
 
-    Food(int a, int b, boolean isGood) {
+    Food(boolean isGood) {
         //super(new Circle(15,15,25, Color.rgb(a,b,0)));
         super();
         Image image;
         this.isGood=isGood;
-        if(isGood)
-            image = new Image("carrot.png",false);
-        else
-            image = new Image("burger.png",false);
-        Circle circle = new Circle(15,15,25, Color.rgb(a,b,0));
+        if(isGood){
+            int rand = (int)(Math.random() * 5);
+            switch (rand) {
+                case 0:{
+                    image = new Image("img/carrot.png",false);
+                    break;
+                }
+                case 1:{
+                    image = new Image("img/apple.png",false);
+                    break;
+                }
+                case 2:{
+                    image = new Image("img/broccoli.png",false);
+                    break;
+                }
+                case 3:{
+                    image = new Image("img/pear.png",false);
+                    break;
+                }
+                case 4:{
+                    image = new Image("img/carrot2.png",false);
+                    break;
+                }
+                default:{
+                    image = new Image("carrot.png",false);
+                    System.out.println("Something goes wrong");
+                    break;
+                }
+
+            }
+        }
+        else {
+            int rand = (int)(Math.random() * 2);
+            switch (rand) {
+                case 0:{
+                    image = new Image("img/burger.png",false);
+                    break;
+                }
+                case 1:{
+                    image = new Image("img/pizza.png",false);
+                    break;
+                }
+                default:{
+                    image = new Image("burger.png",false);
+                    System.out.println("Something goes wrong");
+                    break;
+                }
+
+            }
+        }
+        Circle circle = new Circle(15,15,30, Color.rgb(0,0,0));
         circle.setFill(new ImagePattern(image));
         super.setView(circle);
     }
 
-    // jak uzaleznic od konstruktora to gowno
 
-    static int badcounter;
-    static int goodcounter;
+    private static int badCounterValue;
+    private static int goodCounterValue;
+    private static int goodDroppedValue;
 
-    public void moveDown(int y) {
+    public void moveDown(double y) {
         setVelocity(new Point2D.Double(0, y));
     }
 
@@ -43,19 +89,29 @@ public class Food extends GameObject{
     }
 
     public void goodCounter(){
-        goodcounter++;
-        System.out.println("Dobre kuleczki: " + goodcounter);
+        goodCounterValue++;
     }
     public void badCounter(){
-        badcounter++;
-        System.out.println("Złe kuleczki: " + badcounter);
+        badCounterValue++;
+    }
+    public void goodDropedCounter(){
+        goodDroppedValue++;
+    }
+
+    public static void resetCounters(){
+        goodCounterValue=0;
+        badCounterValue=0;
+        goodDroppedValue=0;
     }
 
     public int getGoodCounter(){
-        return goodcounter;
+        return goodCounterValue;
     }
     public int getBadCounter(){
-        return badcounter;
+        return badCounterValue;
+    }
+    public int getGoodDropedValue(){
+        return goodDroppedValue;
     }
 
 

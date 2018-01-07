@@ -16,7 +16,6 @@ public class GameObject {
     private Node view;
 
     public Point2D velocity = new Point2D.Double(0,0);
-    // double kupka = view.getTranslateY();
 
     public void setVelocity(Point2D velocity) {
         this.velocity = velocity;
@@ -37,10 +36,8 @@ public class GameObject {
     }
 
     public void update() {
-        if(getView().getBoundsInParent().getMinX() >= 10 && velocity.getX() < 0)
-            view.setTranslateX(view.getTranslateX() + velocity.getX());
-        if(getView().getBoundsInParent().getMinX() < 750 && velocity.getX() > 0)
-            view.setTranslateX(view.getTranslateX() + velocity.getX());
+
+
         view.setTranslateY(view.getTranslateY() + velocity.getY());
     }
 
