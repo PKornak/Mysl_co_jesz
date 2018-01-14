@@ -235,7 +235,7 @@ public class MCJApp extends Application {
         VBox sidePanel = new VBox();
 
         topPanel.getChildren().add(timeText);
-       // topPanel.getChildren().add(textScoreDrooped);
+        timeText.setFill(Color.WHITE);
 
         topPanel.setSpacing(150);
         root.getChildren().add(topPanel);
@@ -246,6 +246,7 @@ public class MCJApp extends Application {
         textScoreDrooped.setTranslateY(28);
         textScoreDrooped.setFont(new Font("Georgia", 28));
         textScoreDrooped.setText("Wasted: 0/3");
+        textScoreDrooped.setFill(Color.WHITE);
         root.getChildren().add(textScoreDrooped);
 
         textScoreGood.setFont(new Font("Georgia", 28));
