@@ -91,7 +91,7 @@ public class MCJApp extends Application {
             food.setFlying(false);
             root.getChildren().removeAll(food.getView());
         }
-        textScoreDrooped.setFill(Color.BLACK);
+        textScoreDrooped.setFill(Color.WHITE);
         textScoreDrooped.setText("Wasted: 0/3");
         textScoreBad.setText("Bad food: 0");
         textScoreGood.setText("Good food: 0");
