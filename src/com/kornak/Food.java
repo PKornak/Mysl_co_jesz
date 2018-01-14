@@ -11,12 +11,7 @@ import java.awt.geom.Point2D;
 public class Food extends GameObject{
     private boolean isGood;
 
-    Food() {
-        super(new Circle(15,15,15, Color.rgb(255,0,0)));
-    }
-
     Food(boolean isGood) {
-        //super(new Circle(15,15,25, Color.rgb(a,b,0)));
         super();
         Image image;
         this.isGood=isGood;
@@ -94,7 +89,7 @@ public class Food extends GameObject{
     public void badCounter(){
         badCounterValue++;
     }
-    public void goodDropedCounter(){
+    public void goodDroopedCounter(){
         goodDroppedValue++;
     }
 

@@ -25,6 +25,9 @@ public class GameObject {
         return velocity;
     }
 
+    public void setVisibility(boolean state){
+        view.setVisible(state);
+    }
 
 
     public boolean isFlying(){
@@ -36,8 +39,6 @@ public class GameObject {
     }
 
     public void update() {
-
-
         view.setTranslateY(view.getTranslateY() + velocity.getY());
     }
 

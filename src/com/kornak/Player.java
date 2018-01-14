@@ -3,16 +3,15 @@ package com.kornak;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
 import java.awt.geom.Point2D;
 
 
 public class Player extends GameObject {
-    Image player_right = new Image("img/player_right.png",false);
-    Image player_left = new Image("img/player_left.png",false);
-    Circle circle;
+    private Image player_right = new Image("img/player_right.png",false);
+    private Image player_left = new Image("img/player_left.png",false);
+    private Circle circle;
     Player() {
         super();
         circle = new Circle(0,0,70, Color.rgb(0,0,0));
