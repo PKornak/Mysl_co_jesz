@@ -7,7 +7,9 @@ import javafx.scene.paint.Color;
 
 import java.awt.geom.Point2D;
 
-
+/**
+ * Klasa odpowiedzialna za obiekt gracza w grze
+ */
 public class Player extends GameObject {
     private Image player_right = new Image("img/player_right.png",false);
     private Image player_left = new Image("img/player_left.png",false);
@@ -20,7 +22,9 @@ public class Player extends GameObject {
 
     }
 
-
+    /**
+     *  Weryfikuje kierunek poruszania się gracza, zmienia model, oraz zabezpiecza przed wyjściem poza obszar gry
+     */
     @Override
     public void update(){
         if(getView().getBoundsInParent().getMinX() >= 10 && velocity.getX() < 0) {
@@ -33,14 +37,23 @@ public class Player extends GameObject {
         }
     }
 
+    /**
+     * Porusza gracza w lewo
+     */
     public void moveLeft() {
         setVelocity(new Point2D.Double(-10, velocity.getY()));
     }
 
+    /**
+     * Porusza gracza w prawo
+     */
     public void moveRight() {
         setVelocity(new Point2D.Double(10, velocity.getY()));
     }
 
+    /**
+     * Zatrzymanie gracza
+     */
     public void stop() {
         setVelocity(new Point2D.Double(0, 0));
     }

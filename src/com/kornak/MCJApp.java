@@ -2,7 +2,6 @@ package com.kornak;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -13,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.awt.geom.Point2D;
@@ -22,6 +22,9 @@ import java.util.List;
 
 import static java.lang.Math.abs;
 
+/**
+ * Klasa główna gry
+ */
 public class MCJApp extends Application {
     private final int gameScreenWidth = 1024;
     private final int gameScreenHeight = 768;
@@ -31,19 +34,24 @@ public class MCJApp extends Application {
 
     private List<Food> foodList = new ArrayList<>();
     private Player player = new Player();
-    public Text timeText = new Text();
-    public Text textScoreDrooped = new Text();
-    public Text textScoreGood = new Text();
-    public Text textScoreBad = new Text();
-    Image imagePause = new Image("img/pause2.png",false);
-    Image imageRestart = new Image("img/pause2.png",false);
-    Image imageExit = new Image("img/pause2.png",false);
+
+    private Text timeText = new Text();
+    private Text textScoreDrooped = new Text();
+    private Text textScoreGood = new Text();
+    private Text textScoreBad = new Text();
+    private Text textInfo = new Text();
+
+    private Image imagePause = new Image("img/pause.png",false);
+    private Image imageRestart = new Image("img/restart.png",false);
+    private Image imageExit = new Image("img/exit.png",false);
+
+    private Label popUpLabel = new Label();
 
 
-    Label popUpLabel = new Label();
-
-
-    BackgroundImage myBi= new BackgroundImage(new Image("img/popUpBackground.jpg",popUpLabel.getMaxWidth(),popUpLabel.getHeight(),false,true),
+    private BackgroundImage myBi= new BackgroundImage(new Image("img/popUpBg.png",popUpLabel.getMaxWidth(),popUpLabel.getHeight(),false,true),
+            BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,
+            BackgroundSize.DEFAULT);
+    private BackgroundImage myBi2= new BackgroundImage(new Image("img/Bg.png",popUpLabel.getMaxWidth(),popUpLabel.getHeight(),false,true),
             BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER,
             BackgroundSize.DEFAULT);
 
@@ -60,15 +68,18 @@ public class MCJApp extends Application {
             isPaused=true;
             varTime = timeNew*1000;
             timeNew=0;
+            textInfo.setText("Game PAUSED");
         }
         else {
             isPaused=false;
             timeOld= System.currentTimeMillis()-varTime;
             hidePopUp();
+            textInfo.setText("");
         }
     }
 
     private void restart() {
+        textInfo.setText("");
         isPaused=false;
         defeat =false;
         timerStopped = false;
@@ -89,12 +100,11 @@ public class MCJApp extends Application {
 
     }
 
-    void showPopUp(){
+    private void showPopUp(){
         if(!popUpLabel.isVisible()) {
-            UIGenerator ui = new UIGenerator();
+            popUpController ui = new popUpController();
             popUpLabel.setText(ui.getTip());
-            Image image = new Image(ui.getImageUrl(),false);
-           // popUpLabel.setGraphic(new ImageView(image));
+
             popUpLabel.setVisible(true);
             for (Food food : foodList) {
                 if (popUpLabel.getBoundsInParent().intersects((food.getView().getBoundsInParent()))) {
@@ -103,7 +113,7 @@ public class MCJApp extends Application {
             }
         }
     }
-    void hidePopUp(){
+    private void hidePopUp(){
         popUpLabel.setVisible(false);
         for(Food food : foodList) {
             if(popUpLabel.getBoundsInParent().intersects((food.getView().getBoundsInParent()))){
@@ -130,6 +140,7 @@ public class MCJApp extends Application {
             timeText.setText("Time: " + String.valueOf(timeNew));
         }
         else if (defeat){
+            textInfo.setText("YOU LOSE");
             if(timerStopped){
                 timeNew = (System.currentTimeMillis() - timeOld) / 1000;
                 timerStopped =false;
@@ -163,13 +174,13 @@ public class MCJApp extends Application {
             }
             else if (food.getView().getBoundsInParent().getMinY() >= gameScreenHeight ) {
                 if(food.isGood()) {
-                    food.goodDroopedCounter();
+                    food.goodDroppedCounter();
                     
-                    if(food.getGoodDropedValue()>3){
+                    if(food.getGoodDroppedValue()>3){
                         textScoreDrooped.setFill(Color.RED);
                         defeat=true;
                     }
-                    textScoreDrooped.setText("Wasted: " + String.valueOf(food.getGoodDropedValue() + " /3"));
+                    textScoreDrooped.setText("Wasted: " + String.valueOf(food.getGoodDroppedValue() + " /3"));
                 }
                 food.setFlying(false);
                 root.getChildren().removeAll(food.getView());
@@ -183,12 +194,8 @@ public class MCJApp extends Application {
         player.update();
 
         if (Math.random() < (double)timeNew/1000+0.01 && foodList.size()<timeNew/10+2 && !isPaused && !defeat){
-            boolean isGood;
             double var;
-            if(Math.random()<0.2)
-                isGood=false;
-            else
-                isGood=true;
+            boolean isGood = !(Math.random() < 0.2);
 
             do {
                 var = ((Math.random() * (root.getPrefWidth() - 450)) + 10);
@@ -228,47 +235,26 @@ public class MCJApp extends Application {
         VBox sidePanel = new VBox();
 
         topPanel.getChildren().add(timeText);
-        topPanel.getChildren().add(textScoreDrooped);
-        topPanel.getChildren().add(textScoreBad);
-        topPanel.getChildren().add(textScoreGood);
-        topPanel.getChildren().add(sidePanel);
-        topPanel.setSpacing(40);
-        topPanel.setAlignment(Pos.CENTER);
+       // topPanel.getChildren().add(textScoreDrooped);
+
+        topPanel.setSpacing(150);
         root.getChildren().add(topPanel);
 
-
-       /* timeText.setX(10);
-        timeText.setY(28);*/
         timeText.setFont(new Font("Georgia", 28));
-        //root.getChildren().add(timeText);
 
-        /*textScoreDrooped.setX(220);
-        textScoreDrooped.setY(28);*/
+        textScoreDrooped.setTranslateX(250);
+        textScoreDrooped.setTranslateY(28);
         textScoreDrooped.setFont(new Font("Georgia", 28));
         textScoreDrooped.setText("Wasted: 0/3");
-       /* root.getChildren().add(textScoreDrooped);*/
+        root.getChildren().add(textScoreDrooped);
 
-        /*textScoreGood.setX(370);
-        textScoreGood.setY(28);*/
         textScoreGood.setFont(new Font("Georgia", 28));
         textScoreGood.setText("Good food: 0");
-       /* root.getChildren().add(textScoreGood);*/
 
-        /*textScoreBad.setX(555);
-        textScoreBad.setY(28);*/
         textScoreBad.setFont(new Font("Georgia", 28));
         textScoreBad.setText("Bad food: 0");
-        /*root.getChildren().add(textScoreBad);*/
 
-        popUpLabel.setTranslateX(10);
-        popUpLabel.setTranslateY(300);
-        //popUpLabel.setGraphicTextGap(4);
-        popUpLabel.setPrefSize(400,200);
-        popUpLabel.setBackground(new Background(myBi));
-        root.getChildren().add(popUpLabel);
-        popUpLabel.setVisible(false);
-
-        root.setBackground(new Background(myBi));
+        textInfo.setFont(new Font("Georgia", 28));
 
 
         ImageView b1 = new ImageView();
@@ -281,14 +267,29 @@ public class MCJApp extends Application {
         b3.setImage(imageExit);
         b3.setOnMousePressed(e -> stage.close());
 
-
         sidePanel.setTranslateX(724);
         sidePanel.getChildren().add(b1);
         sidePanel.getChildren().add(b2);
         sidePanel.getChildren().add(b3);
+        sidePanel.getChildren().add(textInfo);
+        sidePanel.getChildren().add(textScoreGood);
+        sidePanel.getChildren().add(textScoreBad);
         sidePanel.setMaxWidth(500);
 
         root.getChildren().add(sidePanel);
+
+
+        popUpLabel.setTranslateX(50);
+        popUpLabel.setTranslateY(300);
+        popUpLabel.setPrefSize(590,200);
+        popUpLabel.setBackground(new Background(myBi));
+        popUpLabel.setVisible(false);
+        popUpLabel.setWrapText(true);
+        popUpLabel.setFont(Font.font("Georgia", 20));
+        popUpLabel.setTextAlignment(TextAlignment.CENTER);
+
+        root.getChildren().add(popUpLabel);
+        root.setBackground(new Background(myBi2));
 
         stage.show();
         stage.setResizable(false);
@@ -312,8 +313,5 @@ public class MCJApp extends Application {
         timer.start();
 
         return root;
-    }
-    public static void main(String[] args) {
-        launch(args);
     }
 }

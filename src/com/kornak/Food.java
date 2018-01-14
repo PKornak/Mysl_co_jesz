@@ -7,7 +7,9 @@ import javafx.scene.shape.Circle;
 
 import java.awt.geom.Point2D;
 
-
+/**
+ * Klasa odpowiedzialna za spadające obiekty
+ */
 public class Food extends GameObject{
     private boolean isGood;
 
@@ -75,37 +77,69 @@ public class Food extends GameObject{
     private static int goodCounterValue;
     private static int goodDroppedValue;
 
+    /**
+     * Nadaje prędkość opadania obiektom
+     * @param y wartość prędkości opadania
+     */
     public void moveDown(double y) {
         setVelocity(new Point2D.Double(0, y));
     }
 
+    /**
+     *  Zwraca czy obiekt jest zdrowy, czy nie
+     */
     public boolean isGood(){
         return isGood;
     }
 
+    /**
+     * Zliczanie zebranych zdrowych obiektów
+     */
     public void goodCounter(){
         goodCounterValue++;
     }
+
+    /**
+     * Zliczanie zebranych niezdrowych obiektów
+     */
     public void badCounter(){
         badCounterValue++;
     }
-    public void goodDroopedCounter(){
+
+    /**
+     * Zliczanie zdrowych obiektów, które wypadł za obszar gry
+     */
+    public void goodDroppedCounter(){
         goodDroppedValue++;
     }
 
+    /**
+     * Resetuje wartość wszystkich liczników obiektów
+     */
     public static void resetCounters(){
         goodCounterValue=0;
         badCounterValue=0;
         goodDroppedValue=0;
     }
 
+    /**
+     * Zwraca ilość zebranych zdrowych obiektów
+     */
     public int getGoodCounter(){
         return goodCounterValue;
     }
+
+    /**
+     * Zwraca ilość zebranych niezdrowych obiektów
+     */
     public int getBadCounter(){
         return badCounterValue;
     }
-    public int getGoodDropedValue(){
+
+    /**
+     * Zwraca ilość niezebranych zdrowych obiektów
+     */
+    public int getGoodDroppedValue(){
         return goodDroppedValue;
     }
 
